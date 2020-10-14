@@ -1,12 +1,7 @@
 // Import MySQL connection.
 var connection = require("../config/connection.js");
 
-// Helper function for SQL syntax.
-// Let's say we want to pass 3 values into the mySQL query.
-// In order to write the query, we need 3 question marks.
-// The above helper function loops through and creates an array of question marks - ["?", "?", "?"] - and turns it into a string.
-// ["?", "?", "?"].toString() => "?,?,?";
-function selectAll(num) {
+function insertOne(num) {
   var arr = [];
 
   for (var i = 0; i < num; i++) {
@@ -16,16 +11,6 @@ function selectAll(num) {
   return arr.toString();
 }
 
-// Helper function to convert object key/value pairs to SQL syntax
-function insertOne(ob) {
-    var arr = [];
-
-    for (var i = 0; i < num; i++) {
-      arr.push("?");
-    }
-  
-    return arr.toString();
-}
 
 function updateOne(ob) {
     var arr = [];
@@ -55,7 +40,7 @@ var orm = {
     queryString += cols.toString();
     queryString += ") ";
     queryString += "VALUES (";
-    queryString += selectAll(vals.length);
+    queryString += insertOne(vals.length);
     queryString += ") ";
 
     console.log(queryString);
@@ -73,7 +58,7 @@ var orm = {
     var queryString = "UPDATE " + table;
 
     queryString += " SET ";
-    queryString += objToSql(objColVals);
+    queryString += updateOne(objColVals);
     queryString += " WHERE ";
     queryString += condition;
 
