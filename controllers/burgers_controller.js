@@ -2,10 +2,12 @@ var express = require("express");
 
 var router = express.Router();
 
-// Import the model (cat.js) to use its database functions.
+// Import the model (burger.js) to use its database functions.
 var burger = require("../models/burgers.js");
 
 // Create all our routes and set up logic within those routes where required.
+//request data to send to the browser
+//invoking a method from the controller
 router.get("/", function(req, res) {
   burger.all(function(data) {
     var hbsObject = {
@@ -16,13 +18,15 @@ router.get("/", function(req, res) {
   });
 });
 
+//send data to server to create/update a resource
 router.post("/api/burgers", function(req, res) {
-  burger.create(["burger_name", "devoured"], [req.body.burger_name, req.body.devoured], function(result) {
-    // Send back the ID of the new quote
+  burger.create(["burger_name", "devoured"], [req.body.burger_name, 0], function(result) {
+    // Send back the ID of the new burger
     res.json({ id: result.insertId });
   });
 });
 
+//updating route with updated information
 router.put("/api/burgers/:id", function(req, res) {
   var condition = "id = " + req.params.id;
 
